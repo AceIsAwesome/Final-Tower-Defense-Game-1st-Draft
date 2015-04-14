@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="worldmapchip5fo" tilewidth="32" tileheight="32">
+  <image source="../../../../Desktop/worldmapchip5fo.png" width="256" height="576"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3ZuWrDQBRAUVVJsKuUrkKKfFLSJU2WJitkBWf79DyDBUHIRpKF5s5wiwvyNMLv4CeBF1VVLTJqtm7ImelRenqw0oOVHqz0YKUHKz1Y6cFKD1Z6sNKDlR6s9GClBys9WOnBSg9WerDSg5UerPRgpQcrPVjpwUqPcdobqXrOQ86Glnp2euihhx566EFJD1Z6sNKDlR6sUnkcbUmP6T0ONqRHvy6jq5E89hvp0d/jNrob0eM6utFjsMeY+2plcB89rK9Pet4z9exK9HBfcTx8nnM8fN9leYxxzynnNDOzjeW6r+YtZ/XnectZLvsqV4967l3O9JjG4//8m9e5eqTel7u2mtdr9NZwsHQeX9F3IR7uK9a+ytnD5znHo9T33dT70oxcrvuq69lpdLbjPVPv+pI8zqMLPTAeuT3P9dBDj/Rt+77P0YseGI9l9KkHxsN9pUezx+hJD4zHe/ShB8bjJ/rVA+OxrdSz00MPPfTQo1vHeqA8/H3k6XGoR/La/tfsemZ6lJ4erPRgpQcrPVjpwUoPVnqw0oOVHqz0YKUHKz1Y6cFKD1Z6sNKDlR6s9GClBys9WOnBSg9WerAq3eMPeLypJ0CcAAA=
+  </data>
+ </layer>
+</map>

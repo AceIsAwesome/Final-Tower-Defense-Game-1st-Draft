@@ -1,0 +1,3 @@
+!!The Map must have at least 2 layers and be .tmx format!!
+*put the Map file name in the src folder and then put the name on the next line* //ex: mapName.tmx
+pathFinderForest.tmx

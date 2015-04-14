@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="worldmapchip5fo" tilewidth="32" tileheight="32">
+  <image source="../../../../Desktop/worldmapchip5fo.png" width="256" height="576"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3DwQkAAAwDoXtk/5kLnUPBVVNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf8B+0+Z2UCcAAA=
+  </data>
+ </layer>
+ <layer name="boobs" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2cW47CMAxF+Z81wP6XOaoACUVVm4evfR3fI/VnRGnxGSdp4ubxEEIIIXx4fg7BxZkXeeKjmpNX9A0kxyp+L8PvqopFDCt4eDUH6hoW37G7izMQvztzXrD0yVYxsHDBRPQzx2w8Vn1WbZ966OlfrPoheRgD2efLAw8VXbCMFdBkcSsfXFTwkcXFgXxwIR9cyAcX8sGFfHBRwUcm0D7+Jo+qKD+4kA8u5IMLKx/tWkemMQ2akRhb+uj5m7gG3V5VzJWV9XSP/qOajxV26s938C4fsUTXCh2gxmIMPrLOLbSxs6rljSarj4MzByu1dgxk9vGlbbdmYlvNh+e8q3xwXW80tiwuDiLaK7Y1irPxWtS8QGRcWJzc1XR7Ih9cRMck+vpsMMSD4R5YYIkFy31E4xGHnvGUfLxBx4FtbMuOhw/RDype3rVpV890mWokkD7QjMa5mg/2ms2KPthhc9KutVrEkDknWnb1wd42XcHi5KwOYSaW3g7Y9gZCMRrXqHyo5AP5eSuyPDusksXHl929rPh43hxI0E7Y1mpX38vzqrFGxOy3ZoghHy36a8988djvNcoJauyEdOK1d5xlLWQvyP7aq2/pZdaj53yxx/iJwUd0n9BL9HgWRZb4t0T7GM2d3s/LxxzywQPKxYF8jDP7zrtyBMOMD+UIhpm2avQc+ejHa38OObFl9VlSPmywnGeRk3Us51jkQ0TjvV4ohBDCj+xtOkOtgSVZfazuG9N+D8t7O9l8WNcT3J3r7SSDj57/V9R+V/LxxusdNPm4x2vfqh4XrD4y135eXY+N0TUHxnyaJbuP33N28MLoY4XsTnbzkR354EI+uJAPIYQQQvTyD2VL5SNAnAAA
+  </data>
+ </layer>
+</map>
