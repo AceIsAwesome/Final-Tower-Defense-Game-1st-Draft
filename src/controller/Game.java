@@ -1,7 +1,6 @@
 package controller;
 import gamestates.LoseState;
 import gamestates.PlayState;
-import gamestates.VillageState;
 import gamestates.WinState;
 
 import org.newdawn.slick.GameContainer;
@@ -22,6 +21,5 @@ public class Game extends StateBasedGame {
 			addState(new PlayState());
 			addState(new WinState());
 			addState(new LoseState());
-			addState(new VillageState());
 		}
 }

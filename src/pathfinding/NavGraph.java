@@ -48,13 +48,16 @@ public class NavGraph implements TileBasedMap {
 	
 	public Point getRandomOpenTile(){
 		boolean block = true;
-		int x = 0;
-		int y = 0;
+		int x = 28;
+		int y = 28;
 		while(block){
-			 x = (int) (Math.random() * map.getWidth());
-			 y = (int) (Math.random() * map.getHeight());
+			x+=1;
+			y-=1;
+			//x = (int) (Math.random() * map.getWidth());
+			//y = (int) (Math.random() * map.getHeight());
 			block = blocked[y][x];
 		}
+		//System.out.println(x+"  "+ y);
 		return new Point(x,y);
 	}
 	

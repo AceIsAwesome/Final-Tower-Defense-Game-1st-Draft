@@ -19,7 +19,7 @@ public class LoseState extends BasicGameState {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame arg1, Graphics g) throws SlickException {
-		g.drawString("You Died, and the monster consumed your body!", gc.getWidth()/4, gc.getHeight()/2);
+		g.drawString("You Have Failed and The Village Was Destroyed!", gc.getWidth()/4, gc.getHeight()/2);
 		g.drawString("Press 'n' to play again!", gc.getWidth()/3 + 20, gc.getHeight()/2 + 20);
 	}
 

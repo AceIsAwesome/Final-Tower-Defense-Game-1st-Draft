@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="worldmapchip5fo" tilewidth="32" tileheight="32">
+  <image source="../../../../Desktop/worldmapchip5fo.png" width="256" height="576"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3QoREAIAwAsaquCw4cjE63KCIi+u8+IyIBAAA+MMps6K6yG7qn3MbfD4hoSC0QDgAA
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="30" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3Tuw0AIAgEUOZg/0FtTbSQ/yXeJTQEfRaoIqLG2mM9GylE9yUIrjeIrrU/5VbsHF0cNyt0z351Ibov8czSzdl179tv8x1u9K4MF+Vv0a1xu/KjO1ELWNzQVhAOAAA=
+  </data>
+ </layer>
+</map>

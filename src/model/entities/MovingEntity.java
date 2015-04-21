@@ -24,9 +24,9 @@ public abstract class MovingEntity extends Entity {
 			v.normalize();
 			velocity = v.times(speed * delta);
 			Point2D newLoc = new Point2D(loc.getX() + velocity.getX(),loc.getY() + velocity.getY());
-			if(!my_nav.blocked(newLoc)){
+			//if(!my_nav.blocked(newLoc)){
 				loc.set(newLoc);
-			}
+			//}
 			direction = velocity.angle();
 		}
 	}

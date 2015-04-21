@@ -9,7 +9,7 @@ public class StateHandler {
 
 	public StateHandler(Enemy agent){
 		my_agent = agent;
-		cur_state = new ChaseState();
+		cur_state = new AttackState();
 	}
 	
 	//initialization

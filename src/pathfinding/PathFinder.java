@@ -20,6 +20,48 @@ public class PathFinder {
 	public PathFinder(AStarPathFinder pathFinder, Enemy e){
 		this.path_finder = pathFinder;
 		this.e = e;
+		/*curP.appendStep(14, 28);
+		curP.appendStep(14, 27);
+		curP.appendStep(14, 26);
+		curP.appendStep(14, 25);
+		curP.appendStep(14, 24);
+		curP.appendStep(13, 24);
+		curP.appendStep(12, 24);
+		curP.appendStep(11, 24);
+		curP.appendStep(10, 24);
+		curP.appendStep(9, 24);
+		curP.appendStep(8, 24);
+		curP.appendStep(7, 24);
+		curP.appendStep(6, 24);
+		curP.appendStep(5, 24);
+		curP.appendStep(4, 24);
+		curP.appendStep(3, 24);
+		curP.appendStep(3, 23);
+		curP.appendStep(3, 22);
+		curP.appendStep(3, 21);
+		curP.appendStep(3, 20);
+		curP.appendStep(3, 19);
+		curP.appendStep(3, 18);
+		curP.appendStep(3, 17);
+		curP.appendStep(4, 17);
+		curP.appendStep(5, 17);
+		curP.appendStep(6, 17);
+		curP.appendStep(7, 17);
+		curP.appendStep(8, 17);
+		curP.appendStep(9, 17);
+		curP.appendStep(10, 17);
+		curP.appendStep(11, 17);
+		curP.appendStep(12, 17);
+		curP.appendStep(13, 17);
+		curP.appendStep(14, 17);
+		curP.appendStep(15, 17);
+		curP.appendStep(16, 17);
+		curP.appendStep(17, 17);
+		curP.appendStep(18, 17);
+		curP.appendStep(19, 17);
+		curP.appendStep(20, 17);
+		curP.appendStep(21, 17);
+		*/
 	}
 	public void generatePath(Point2D dest){
 		Point current = e.getNav().worldToTile(e.getLoc());
@@ -30,11 +72,17 @@ public class PathFinder {
 		curS = 0;
 	}
 	public void generatePath(Point p) {
+		//System.out.println("1");
 		Point current = e.getNav().worldToTile(e.getLoc());
+		//System.out.println("2");
 		curP = path_finder.findPath(e, current.x, current.y, p.x, p.y);
+		//System.out.println("3");
 		considP = curP;
+		//System.out.println("4");
 		curP = smoothPath(curP);
+		//System.out.println("5");
 		curS = 0;
+		//System.out.println("6");
 	}
 	
 	public Path smoothPath(Path p){

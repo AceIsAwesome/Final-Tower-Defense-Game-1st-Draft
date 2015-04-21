@@ -16,6 +16,7 @@ public abstract class Entity implements Mover {
 	protected double direction;
 	protected double radius;
 	public World myWorld;
+	private boolean dead = false;
 	
 	protected NavGraph my_nav;
 	
@@ -98,6 +99,13 @@ public abstract class Entity implements Mover {
 	}
 	public NavGraph getNav(){
 		return my_nav;
+	}
+	
+	public boolean isDead() {
+		return dead;
+	}
+	public void setDead(boolean d) {
+		dead = d;
 	}
 	public void resetToStart() {
 		// TODO Auto-generated method stub

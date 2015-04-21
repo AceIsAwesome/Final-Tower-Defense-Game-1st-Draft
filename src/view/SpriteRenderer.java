@@ -7,16 +7,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-
-
-
-
-
 import model.entities.Enemy;
 import model.entities.Entity;
-import model.entities.Food;
 import model.entities.Player;
-import model.entities.Prize;
 
 public class SpriteRenderer {
 	
@@ -28,10 +21,6 @@ public class SpriteRenderer {
 	private Image agentImg;
 	private Animation enemyAnim;
 	
-	private Image prizeImg;
-	
-	private Image foodImg;
-	
 	public SpriteRenderer(CoordinateTranslator convert){
 		this.convert = convert;
 		try {
@@ -40,10 +29,6 @@ public class SpriteRenderer {
 			
 			agentImg = new Image("src/octork.png");
 			enemyAnim = getAnimation ( agentImg, 3, 1, 21, 20, 3, 150);
-			
-			prizeImg = new Image("src/gem.png");
-			
-			foodImg = new Image("src/food.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -54,12 +39,6 @@ public class SpriteRenderer {
 		}
 		else if(e instanceof Enemy){
 			renderH((Enemy)e,gc,g);
-		}
-		else if(e instanceof Prize){
-			renderH((Prize)e, gc, g);
-		}
-		else if(e instanceof Food){
-			renderH((Food)e, gc, g);
 		}
 	}
 
@@ -97,12 +76,6 @@ public class SpriteRenderer {
 	}
 	private void renderH(Player e, GameContainer gc, Graphics g) {
 		drawSprite(playerAnim.getCurrentFrame(), e);
-	}
-	private void renderH(Prize e, GameContainer gc, Graphics g) {
-		drawSprite(prizeImg, e);
-	}
-	private void renderH(Food e, GameContainer gc, Graphics g) {
-		drawSprite(foodImg, e);
 	}
 	
 	public Animation getAnimation (Image i , int sX, int sY , int sW , int sH, int f, int d){

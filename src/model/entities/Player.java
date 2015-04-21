@@ -56,9 +56,9 @@ public class Player extends MovingEntity {
 		if(loc.getY() < 0)
 			loc.setY(myWorld.getWorldW());
 		
-		checkCollisons();
+		//checkCollisons();
 	}
-	private void checkCollisons(){
+	/*private void checkCollisons(){
 		for(Entity en : e.getArray()){
 			if(en != this){
 				if(this.isCollided(en)){
@@ -71,16 +71,10 @@ public class Player extends MovingEntity {
 						ConsoleLog.getInstance().log("Player Died");
 						ConsoleLog.getInstance().log("You have " + (5 - deaths) + " lives remaining");
 					}
-					if(en instanceof Prize){
-						((Prize) en).catchIt();
-						points++;
-						ConsoleLog.getInstance().log("Gem Collected");
-						ConsoleLog.getInstance().log((5 - points) + " gems remain");
-					}
 				}
 			}
 		}
-	}
+	}*/
 
 	
 	public int getPoints() {

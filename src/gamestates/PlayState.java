@@ -7,14 +7,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import math.Point2D;
 import model.World;
 import model.entities.Enemy;
 import model.entities.Entity;
-import model.entities.Food;
 import model.entities.Player;
-import model.entities.Prize;
 import model.managers.ConsoleLog;
 import model.managers.EntityManager;
 
@@ -32,7 +31,7 @@ import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
-import enemystates.WanderState;
+import enemystates.AttackState;
 import pathfinding.NavGraph;
 import view.ConsoleView;
 import view.CoordinateTranslator;
@@ -55,12 +54,12 @@ public class PlayState extends BasicGameState {
 	private boolean showConsideredUnsmoothedPaths;
 	private boolean showLog;
 	private EntityManager e;
-	
-	private Point2D villagePoint = new Point2D(60,61);
+	private int spawnTimer = 0;
 	
 	private CoordinateTranslator translator;
 	
 	private Music music;
+	private int deaths = 0;
 	
 	private Sound win;
 	private Sound lose;
@@ -68,16 +67,9 @@ public class PlayState extends BasicGameState {
 	
 	private World world;
 	private Player player;
-	private Prize prize;
 	private NavGraph nav;
 	private String mapName = "";
 	private String musicName = "";
-	
-	private Food food1;
-	private Food food2;
-	private Food food3;
-	private Food food4;
-	private Food food5;
 	
 	int newX;
 	int newY;
@@ -85,8 +77,6 @@ public class PlayState extends BasicGameState {
 	Point new_p;
 	
 	private Image i;
-
-	
 
 	@Override
 	public int getID() {
@@ -131,27 +121,14 @@ public class PlayState extends BasicGameState {
 		ConsoleLog.getInstance().log("Camera Loaded");
 		
 		//Load World stuff
-		world = new World(100, 100);
+		world = new World(30, 30);
 		translator = new CoordinateTranslator(world.getWorldW(), world.getWorldH(), camera.mapWidth, camera.mapHeight);
 		nav = new NavGraph(map, world);
 		//Load Entities
 		e = new EntityManager();
-		
-		player = new Player(55, 55, .5, .01, world, nav, e);
-		prize = new Prize(50, 50, .5, world,nav);
-		food1 = new Food(14, 6, .2, world);
-		food2 = new Food(34, 48, .2, world);
-		food3 = new Food(80, 90, .2, world);
-		food4 = new Food(37, 96, .2, world);
-		food5 = new Food(90, 15, .2, world);
+		player = new Player(15, 15, .5, .01, world, nav, e);
 
 		e.addEntity(player);
-		e.addEntity(prize);
-		e.addEntity(food1);
-		e.addEntity(food2);
-		e.addEntity(food3);
-		e.addEntity(food4);
-		e.addEntity(food5);
 		
 		addAgents();
 		//Load UI Components
@@ -167,11 +144,6 @@ public class PlayState extends BasicGameState {
 		
 		ConsoleLog.getInstance().log("Entities Loaded");
 		
-		newX = 60*32;
-		newY = 60*32;
-		
-		new_p = new Point(50,50);
-		
 		win = new Sound("src/youWin.ogg");
 		lose = new Sound("src/youLost.ogg");
 		ding = new Sound("src/chime.ogg");
@@ -179,19 +151,12 @@ public class PlayState extends BasicGameState {
 		music = new Music("src/"+musicName);
 		music.setVolume(0.5f);
 		music.loop();
+		
+		
 	}
 	private void addAgents(){
 		
-		Enemy agent = new Enemy(40, 40, .25, .0095, 10, world, nav);
-		agent.setTarget(player);
-		e.addEntity(agent);
-		
-		agent = new Enemy(35, 35, .25, .009, 10, world, nav);
-		agent.setTarget(player);
-		e.addEntity(agent);
-		
-		agent = new Enemy(45, 45, .25, .01, 10, world, nav);
-		agent.setTarget(player);
+		Enemy agent = new Enemy(14, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent);
 		
 		//Vision Debug agent
@@ -215,43 +180,23 @@ public class PlayState extends BasicGameState {
 		if(showNavGrid){
 			navView.render(gc, g);
 		}
-		Color[] agent_colors = {Color.red, Color.black, Color.pink};//terrible
-		int cur = 0;
-		int curr = 0;
-		int currr = 0;
+		Color[] agent_colors = {Color.red, Color.black, Color.pink,};//terrible
 		for (Entity en : e.getArray()) {
+			if(en instanceof Enemy){
 			spriteRender.render(en, gc, g);
+			}
 			if(showAgentPaths && en instanceof Enemy){
-				navView.renderAgentPath((Enemy)en, agent_colors[cur], gc, g);
-				cur++;
+				navView.renderAgentPath((Enemy)en, agent_colors[0], gc, g);
 			}
 			if(showConsideredSmoothPaths && en instanceof Enemy){
-				navView.renderConsideredSmoothPath((Enemy)en, agent_colors[curr], gc, g);
-				curr++;
+				navView.renderConsideredSmoothPath((Enemy)en, agent_colors[1], gc, g);
 			}
 			if(showConsideredUnsmoothedPaths && en instanceof Enemy){
-				navView.renderConsideredUnsmoothedPath((Enemy)en, agent_colors[currr], gc, g);
-				currr++;
+				navView.renderConsideredUnsmoothedPath((Enemy)en, agent_colors[2], gc, g);
 			}
 		}
 		
 		camera.untranslateGraphics();
-		
-		// now draw all UI elements
-		//draw Text at Top of Screen
-		DecimalFormat df = new DecimalFormat("0.00");
-		String x = df.format(player.getX());
-		String y = df.format(player.getY());
-		g.drawString("World Coordinates: (" + x + ", " + y + ")", 100, 0);
-		x = df.format(p.x - camera.cameraX);
-		y = df.format(p.y - camera.cameraY);
-		g.drawString("Screen Coordinates: (" + x + ", " + y + ")", 400, 0);
-		g.drawString("Gems collected:  " + player.getPoints() + "/5", 150, 20);
-		g.drawString("Deaths:  " + player.getDeaths() + "/5", 300, 40);
-		g.drawString("Gem spotted near: x = " + (new_p.x) + ", y = " + (100-(new_p.y)), 350, 20);
-		
-		//draw MiniMap
-		minimap.render(gc, g, camera, player);
 		
 		//draw Console
 		if(showLog)
@@ -261,24 +206,34 @@ public class PlayState extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int t)
 			throws SlickException {
+		ArrayList<Entity> enlist = new ArrayList<Entity>();
+		enlist = e.getArray();
+		for(int i = 0; i < e.getArray().size(); i++)
+		{
+			if(enlist.get(i).isDead()){
+				deaths++;
+				player.setDeaths(deaths);
+				enlist.remove(i);
+				i--;
+			}
+		}
+		spawnTimer++;
+		if(spawnTimer >= 150){
+			addAgents();
+			spawnTimer = 0;
+		}
+		
 		for (Entity en : e.getArray()) {
 			en.update(t);
 		}
 		spriteRender.updateAnimations(t);
 		
-		if(prize.caught){
-			new_p = nav.getRandomOpenTile();
-			ding.play();
-			prize.setLoc(nav.tileToWorld(new_p.x, new_p.y));
-			ConsoleLog.getInstance().log("Prize moved to: " + new_p.toString());
-			prize.caught = false;
 			
-			if(player.getPoints() == 5){
-				music.stop();
-				win.play();
-				falsifyInput();
-				game.enterState(1);
-			}
+		if(player.getPoints() == 20){
+			music.stop();
+			win.play();
+			falsifyInput();
+			game.enterState(1);
 		}
 		
 		if(player.getDeaths() == 5){
@@ -288,16 +243,6 @@ public class PlayState extends BasicGameState {
 			game.enterState(2);
 		}
 		
-		if(player.getLoc().getX() >= (villagePoint.getX()-1) && player.getLoc().getX() <= (villagePoint.getX()+1) && player.getLoc().getY() >= (villagePoint.getY()-1) && player.getLoc().getY() <= (villagePoint.getY()+1)){
-			mapName = "pathFinderForest.tmx";
-			map = new TiledMap("src/"+mapName);
-			camera.setMap(map);
-			player.moveRight = false;
-			player.moveLeft = false;
-			player.moveUp = false;
-			player.moveDown = false;
-			game.enterState(3);
-		}
 	}
 	private void falsifyInput(){
 		player.moveLeft = false;
