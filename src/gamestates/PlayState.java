@@ -55,6 +55,7 @@ public class PlayState extends BasicGameState {
 	private boolean showLog;
 	private EntityManager e;
 	private int spawnTimer = 0;
+	private int spawnTime = 150;
 	
 	private CoordinateTranslator translator;
 	
@@ -158,6 +159,22 @@ public class PlayState extends BasicGameState {
 		
 		Enemy agent = new Enemy(14, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent);
+		Enemy agent1 = new Enemy(15, 29, .25, .0095, 10, world, nav);
+		e.addEntity(agent1);
+		Enemy agent2 = new Enemy(16, 29, .25, .0095, 10, world, nav);
+		e.addEntity(agent2);
+		Enemy agent3 = new Enemy(9, 24, .25, .0095, 10, world, nav);
+		e.addEntity(agent3);
+		Enemy agent4 = new Enemy(10, 24, .25, .0095, 10, world, nav);
+		e.addEntity(agent4);
+		Enemy agent5 = new Enemy(11, 24, .25, .0095, 10, world, nav);
+		e.addEntity(agent5);
+		Enemy agent6 = new Enemy(12, 24, .25, .0095, 10, world, nav);
+		e.addEntity(agent6);
+		Enemy agent7 = new Enemy(13, 24, .25, .0095, 10, world, nav);
+		e.addEntity(agent7);
+		Enemy agent8 = new Enemy(14, 24, .25, .0095, 10, world, nav);
+		e.addEntity(agent8);
 		
 		//Vision Debug agent
 		/*
@@ -218,9 +235,12 @@ public class PlayState extends BasicGameState {
 			}
 		}
 		spawnTimer++;
-		if(spawnTimer >= 150){
+		if(spawnTimer >= spawnTime){
 			addAgents();
 			spawnTimer = 0;
+			if(spawnTime > 1){
+				spawnTime--;
+			}
 		}
 		
 		for (Entity en : e.getArray()) {
