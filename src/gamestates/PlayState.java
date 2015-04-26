@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import math.Point2D;
 import model.World;
+import model.entities.Bullet;
 import model.entities.Enemy;
 import model.entities.Entity;
 import model.entities.Player;
@@ -159,7 +160,7 @@ public class PlayState extends BasicGameState {
 		
 		Enemy agent = new Enemy(14, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent);
-		Enemy agent1 = new Enemy(15, 29, .25, .0095, 10, world, nav);
+		/*Enemy agent1 = new Enemy(15, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent1);
 		Enemy agent2 = new Enemy(16, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent2);
@@ -174,7 +175,7 @@ public class PlayState extends BasicGameState {
 		Enemy agent7 = new Enemy(13, 24, .25, .0095, 10, world, nav);
 		e.addEntity(agent7);
 		Enemy agent8 = new Enemy(14, 24, .25, .0095, 10, world, nav);
-		e.addEntity(agent8);
+		e.addEntity(agent8);*/
 		
 		//Vision Debug agent
 		/*
@@ -185,6 +186,12 @@ public class PlayState extends BasicGameState {
 		agent.getMy_state_machine().ChangeState(new WanderState());
 		e.addEntity(agent);
 		*/
+	}
+	
+private void addBullet(){
+		
+		Bullet bullet = new Bullet(14, 29, .25, .0095, world, nav, e);
+		e.addEntity(bullet);
 	}
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g)
