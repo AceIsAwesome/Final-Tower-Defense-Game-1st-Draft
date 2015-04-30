@@ -17,7 +17,7 @@ public class Tower extends Entity {
 	private EntityManager e;
 	private boolean canSee;
 	private double sight;
-	private int fireLag = 2000;
+	private int fireLag = 200;
 	private boolean canFire = false;
 
 	public Tower(double initX, double initY, double r, double sight, World myWorld, NavGraph graph, EntityManager ent) throws SlickException {
@@ -26,6 +26,7 @@ public class Tower extends Entity {
 		e = ent;
 		canSee = false;
 		this.sight = sight;
+		//System.out.println("tower created");
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class Tower extends Entity {
 			}
 		}*/
 		if(canFire){
-			fireLag = 2000;
+			fireLag = 200;
 		}
 		else{
 			fireLag--;
@@ -52,6 +53,11 @@ public class Tower extends Entity {
 	
 	public boolean getCanFire(){
 		return canFire;
+	}
+	
+	public void setCanFire(boolean b){
+		canFire = b;
+		fireLag = 200;
 	}
 
 }

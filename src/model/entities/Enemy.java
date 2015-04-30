@@ -2,6 +2,8 @@ package model.entities;
 
 import java.awt.Point;
 
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 
@@ -19,11 +21,14 @@ public class Enemy extends MovingEntity {
 	private Point2D startLoc;
 	private StateHandler my_state_machine;
 	private EnemyState attack = new AttackState();
+	private boolean hasBullet = false;
+	
+	private Sound dead;
 
 	private PathFinder pathing;
 	
 	public Enemy(double initX, double initY, double r, double velocity, double sight, World myWorld,
-			NavGraph graph) {
+			NavGraph graph) throws SlickException {
 		super(initX, initY, r, velocity, myWorld, graph);
 		startLoc = new Point2D(initX, initY);
 		my_state_machine = new StateHandler(this);
@@ -31,13 +36,15 @@ public class Enemy extends MovingEntity {
 		setPathing(new PathFinder(new AStarPathFinder(my_nav, Integer.MAX_VALUE, true), this));
 		this.my_state_machine.ChangeState(attack);
 		
+		dead = new Sound("src/Shotgun.ogg");
 	}
 
 	@Override
-	public void update(int delta) {
+	public void update(int delta) throws SlickException {
 		my_state_machine.update(delta);
 		if(pathing.done()){
 			super.setDead(true);
+			dead.play();
 		}
 	}
 
@@ -64,4 +71,11 @@ public class Enemy extends MovingEntity {
 	public void setPathing(PathFinder pathing) {
 		this.pathing = pathing;
 	}
+	public boolean getHasBullet(){
+		return hasBullet;
+	}
+	public void setHasBullet(boolean b){
+		hasBullet = b;
+	}
+	
 }

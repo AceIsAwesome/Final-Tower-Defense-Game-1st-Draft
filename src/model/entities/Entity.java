@@ -1,5 +1,6 @@
 package model.entities;
 
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.pathfinding.Mover;
 
 import pathfinding.NavGraph;
@@ -17,6 +18,7 @@ public abstract class Entity implements Mover {
 	protected double radius;
 	public World myWorld;
 	private boolean dead = false;
+	private boolean killed = false;
 	
 	protected NavGraph my_nav;
 	
@@ -40,7 +42,7 @@ public abstract class Entity implements Mover {
 		//keep a unique id for every Entity
 		id = (nextId++);
 	}
-	public abstract void update(int delta);
+	public abstract void update(int delta) throws SlickException;
 	
 	public boolean isCollided(Entity e){
 		double a = loc.getX() - e.getX();
@@ -106,6 +108,12 @@ public abstract class Entity implements Mover {
 	}
 	public void setDead(boolean d) {
 		dead = d;
+	}
+	public boolean wasKilled() {
+		return killed;
+	}
+	public void setKilled(boolean d) {
+		killed = d;
 	}
 	public void resetToStart() {
 		// TODO Auto-generated method stub

@@ -15,6 +15,7 @@ import model.entities.Bullet;
 import model.entities.Enemy;
 import model.entities.Entity;
 import model.entities.Player;
+import model.entities.Tower;
 import model.managers.ConsoleLog;
 import model.managers.EntityManager;
 
@@ -35,6 +36,7 @@ import org.newdawn.slick.util.pathfinding.Path.Step;
 import enemystates.AttackState;
 import pathfinding.NavGraph;
 import view.ConsoleView;
+import view.CoordinateTrans;
 import view.CoordinateTranslator;
 import view.MiniMap;
 import view.NavView;
@@ -59,9 +61,11 @@ public class PlayState extends BasicGameState {
 	private int spawnTime = 150;
 	
 	private CoordinateTranslator translator;
+	private CoordinateTrans trans;
 	
 	private Music music;
 	private int deaths = 0;
+	private int points = 0;
 	
 	private Sound win;
 	private Sound lose;
@@ -69,6 +73,7 @@ public class PlayState extends BasicGameState {
 	
 	private World world;
 	private Player player;
+	private Tower tower;
 	private NavGraph nav;
 	private String mapName = "";
 	private String musicName = "";
@@ -125,6 +130,7 @@ public class PlayState extends BasicGameState {
 		//Load World stuff
 		world = new World(30, 30);
 		translator = new CoordinateTranslator(world.getWorldW(), world.getWorldH(), camera.mapWidth, camera.mapHeight);
+		trans = new CoordinateTrans(camera.mapWidth, camera.mapHeight, world.getWorldW(), world.getWorldH(), 0, 600);
 		nav = new NavGraph(map, world);
 		//Load Entities
 		e = new EntityManager();
@@ -156,7 +162,7 @@ public class PlayState extends BasicGameState {
 		
 		
 	}
-	private void addAgents(){
+	private void addAgents() throws SlickException{
 		
 		Enemy agent = new Enemy(14, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent);
@@ -188,9 +194,9 @@ public class PlayState extends BasicGameState {
 		*/
 	}
 	
-private void addBullet(){
+private void addBullet(double d, double f) throws SlickException{
 		
-		Bullet bullet = new Bullet(14, 29, .25, .0095, world, nav, e);
+		Bullet bullet = new Bullet(d, f, 1, .02, world, nav, e);
 		e.addEntity(bullet);
 	}
 	@Override
@@ -206,7 +212,7 @@ private void addBullet(){
 		}
 		Color[] agent_colors = {Color.red, Color.black, Color.pink,};//terrible
 		for (Entity en : e.getArray()) {
-			if(en instanceof Enemy){
+			if(en instanceof Enemy || en instanceof Tower || en instanceof Bullet){
 			spriteRender.render(en, gc, g);
 			}
 			if(showAgentPaths && en instanceof Enemy){
@@ -240,6 +246,18 @@ private void addBullet(){
 				enlist.remove(i);
 				i--;
 			}
+			if(enlist.get(i).wasKilled()){
+				points++;
+				player.setPoints(points);
+				enlist.remove(i);
+				i--;
+			}
+			if(enlist.get(i) instanceof Tower){
+				if(((Tower)enlist.get(i)).getCanFire()){
+					addBullet(enlist.get(i).getX(), enlist.get(i).getY());
+					((Tower)enlist.get(i)).setCanFire(false);
+				}
+			}
 		}
 		spawnTimer++;
 		if(spawnTimer >= spawnTime){
@@ -249,6 +267,7 @@ private void addBullet(){
 				spawnTime--;
 			}
 		}
+		
 		
 		for (Entity en : e.getArray()) {
 			en.update(t);
@@ -263,7 +282,7 @@ private void addBullet(){
 			game.enterState(1);
 		}
 		
-		if(player.getDeaths() == 5){
+		if(player.getDeaths() >= 5){
 			music.stop();
 			lose.play();
 			falsifyInput();
@@ -383,6 +402,20 @@ private void addBullet(){
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickCount){
+		Point2D p = new Point2D();
+		p = translator.screenToWorld(x, y);
+		 try {
+			tower = new Tower((p.getX()+(camera.cameraX/32)), (p.getY()-(camera.cameraY/32)), 1, 20, world, nav, e);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 //System.out.println("cmaera x = "+camera.cameraX+"; y = "+camera.cameraY);
+		 e.addEntity(tower);
 	}
 
 }
