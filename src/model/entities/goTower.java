@@ -12,17 +12,17 @@ import model.managers.ConsoleLog;
 import model.managers.EntityManager;
 import pathfinding.NavGraph;
 
-public class Tower extends Entity {
-	private int price = 20;
+public class goTower extends Entity {
+	private int price = 100;
 	private Point2D startLoc;
 	private EntityManager e;
 	private boolean canSee;
 	private double sight;
-	private int fireLag = 200;
+	private int fireLag = 10;
 	private boolean canFire = false;
 	private boolean hasBullet = false;
 
-	public Tower(double initX, double initY, double r, double sight, World myWorld, NavGraph graph, EntityManager ent) throws SlickException {
+	public goTower(double initX, double initY, double r, double sight, World myWorld, NavGraph graph, EntityManager ent) throws SlickException {
 		super(initX, initY,r, myWorld, graph);
 		startLoc = new Point2D(initX, initY);
 		e = ent;
@@ -42,7 +42,7 @@ public class Tower extends Entity {
 			}
 		}*/
 		if(canFire){
-			fireLag = 200;
+			fireLag = 10;
 		}
 		else{
 			fireLag--;
@@ -50,7 +50,6 @@ public class Tower extends Entity {
 				canFire = true;
 			}
 		}
-		
 	}
 	
 	public boolean getCanFire(){
@@ -59,7 +58,7 @@ public class Tower extends Entity {
 	
 	public void setCanFire(boolean b){
 		canFire = b;
-		fireLag = 200;
+		fireLag = 10;
 	}
 	
 	public boolean gethasBullet(){

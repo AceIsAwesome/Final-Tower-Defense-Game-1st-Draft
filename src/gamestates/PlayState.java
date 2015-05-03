@@ -16,6 +16,8 @@ import model.entities.Enemy;
 import model.entities.Entity;
 import model.entities.Player;
 import model.entities.Tower;
+import model.entities.goTower;
+import model.entities.kameBullet;
 import model.managers.ConsoleLog;
 import model.managers.EntityManager;
 
@@ -59,6 +61,8 @@ public class PlayState extends BasicGameState {
 	private EntityManager e;
 	private int spawnTimer = 0;
 	private int spawnTime = 150;
+	private int towerPrice = 15;
+	private int goTowerPrice = 100;
 	
 	private CoordinateTranslator translator;
 	private CoordinateTrans trans;
@@ -74,9 +78,13 @@ public class PlayState extends BasicGameState {
 	private World world;
 	private Player player;
 	private Tower tower;
+	private goTower gotower;
 	private NavGraph nav;
 	private String mapName = "";
 	private String musicName = "";
+	
+	private int money = 50;
+	private boolean towerType = false;
 	
 	int newX;
 	int newY;
@@ -166,11 +174,11 @@ public class PlayState extends BasicGameState {
 		
 		Enemy agent = new Enemy(14, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent);
-		/*Enemy agent1 = new Enemy(15, 29, .25, .0095, 10, world, nav);
+		Enemy agent1 = new Enemy(15, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent1);
 		Enemy agent2 = new Enemy(16, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent2);
-		Enemy agent3 = new Enemy(9, 24, .25, .0095, 10, world, nav);
+		/*Enemy agent3 = new Enemy(9, 24, .25, .0095, 10, world, nav);
 		e.addEntity(agent3);
 		Enemy agent4 = new Enemy(10, 24, .25, .0095, 10, world, nav);
 		e.addEntity(agent4);
@@ -194,10 +202,28 @@ public class PlayState extends BasicGameState {
 		*/
 	}
 	
-private void addBullet(double d, double f) throws SlickException{
+	private void addBullet(double d, double f, Tower t) throws SlickException{
 		
-		Bullet bullet = new Bullet(d, f, 1, .02, world, nav, e);
+		Bullet bullet = new Bullet(d, f, 1, .02, world, nav, e, t);
 		e.addEntity(bullet);
+	}
+	
+	private void addkameBullet(double d, double f, goTower gt) throws SlickException{
+		
+		kameBullet kamebullet = new kameBullet(d, f, 1, .02, world, nav, e, gt);
+		e.addEntity(kamebullet);
+	}
+
+	private void addTower(double d, double f) throws SlickException{
+	
+		tower = new Tower(d, f, 1, 20, world, nav, e);
+		e.addEntity(tower);
+	}
+
+	private void addgoTower(double d, double f) throws SlickException{
+	
+		gotower = new goTower(d, f, 1, 20, world, nav, e);
+		e.addEntity(gotower);
 	}
 	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics g)
@@ -212,7 +238,7 @@ private void addBullet(double d, double f) throws SlickException{
 		}
 		Color[] agent_colors = {Color.red, Color.black, Color.pink,};//terrible
 		for (Entity en : e.getArray()) {
-			if(en instanceof Enemy || en instanceof Tower || en instanceof Bullet){
+			if(en instanceof Enemy || en instanceof Tower || en instanceof Bullet || en instanceof goTower || en instanceof kameBullet){
 			spriteRender.render(en, gc, g);
 			}
 			if(showAgentPaths && en instanceof Enemy){
@@ -231,6 +257,10 @@ private void addBullet(double d, double f) throws SlickException{
 		//draw Console
 		if(showLog)
 		consoleView.render(ConsoleLog.getInstance(), gc, g);
+		
+		g.drawString("Cash:$" + money , 200, 0);
+		g.drawString("Points:" + player.getPoints() + "/500", 200, 20);
+		g.drawString("Lives Remaining:" + player.getDeaths() + "/5", 200, 40);
 	}
 
 	@Override
@@ -248,14 +278,33 @@ private void addBullet(double d, double f) throws SlickException{
 			}
 			if(enlist.get(i).wasKilled()){
 				points++;
+				money++;
 				player.setPoints(points);
 				enlist.remove(i);
 				i--;
 			}
 			if(enlist.get(i) instanceof Tower){
 				if(((Tower)enlist.get(i)).getCanFire()){
-					addBullet(enlist.get(i).getX(), enlist.get(i).getY());
+					if(!((Tower)enlist.get(i)).gethasBullet()){
+						addBullet(enlist.get(i).getX(), enlist.get(i).getY(), ((Tower)enlist.get(i)));
+						((Tower)enlist.get(i)).setCanFire(false);
+						((Tower)enlist.get(i)).sethasBullet(true);
+					}
+					else{
 					((Tower)enlist.get(i)).setCanFire(false);
+					}
+				}
+			}
+			if(enlist.get(i) instanceof goTower){
+				if(((goTower)enlist.get(i)).getCanFire()){
+					if(!((goTower)enlist.get(i)).gethasBullet()){
+						addkameBullet(enlist.get(i).getX(), enlist.get(i).getY(), ((goTower)enlist.get(i)));
+						((goTower)enlist.get(i)).setCanFire(false);
+						((goTower)enlist.get(i)).sethasBullet(true);
+					}
+					else{
+					((goTower)enlist.get(i)).setCanFire(false);
+					}
 				}
 			}
 		}
@@ -264,6 +313,7 @@ private void addBullet(double d, double f) throws SlickException{
 			addAgents();
 			spawnTimer = 0;
 			if(spawnTime > 1){
+				spawnTime--;
 				spawnTime--;
 			}
 		}
@@ -275,7 +325,7 @@ private void addBullet(double d, double f) throws SlickException{
 		spriteRender.updateAnimations(t);
 		
 			
-		if(player.getPoints() == 20){
+		if(player.getPoints() == 500){
 			music.stop();
 			win.play();
 			falsifyInput();
@@ -288,7 +338,6 @@ private void addBullet(double d, double f) throws SlickException{
 			falsifyInput();
 			game.enterState(2);
 		}
-		
 	}
 	private void falsifyInput(){
 		player.moveLeft = false;
@@ -379,6 +428,14 @@ private void addBullet(double d, double f) throws SlickException{
 				showConsideredUnsmoothedPaths = true;
 			}
 		}
+		if (c == 't'){
+			if(towerType){
+				towerType = false;
+			}
+			else{
+				towerType = true;
+			}
+		}
 	}
 
 	@Override
@@ -405,17 +462,30 @@ private void addBullet(double d, double f) throws SlickException{
 	}
 	
 	@Override
-	public void mouseClicked(int button, int x, int y, int clickCount){
+	public void mouseClicked(int button, int x, int y, int clickCount) {
 		Point2D p = new Point2D();
 		p = translator.screenToWorld(x, y);
-		 try {
-			tower = new Tower((p.getX()+(camera.cameraX/32)), (p.getY()-(camera.cameraY/32)), 1, 20, world, nav, e);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		double tx = (p.getX()+(camera.cameraX/32));
+		double ty = (p.getY()-(camera.cameraY/32));
+		
+		if(towerType && money >= goTowerPrice){
+			try {
+				addgoTower(tx, ty);
+				money = money - goTowerPrice;
+			} 
+			catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
-		 //System.out.println("cmaera x = "+camera.cameraX+"; y = "+camera.cameraY);
-		 e.addEntity(tower);
+		else if(!towerType && money >= towerPrice){
+			try {
+				money = money - towerPrice;
+				addTower(tx, ty);
+			} 
+			catch (SlickException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

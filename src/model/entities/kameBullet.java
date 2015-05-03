@@ -1,5 +1,4 @@
 package model.entities;
-
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
@@ -8,23 +7,23 @@ import model.World;
 import model.managers.EntityManager;
 import pathfinding.NavGraph;
 
-public class Bullet extends MovingEntity {
+public class kameBullet extends MovingEntity {
 	private Entity target;
 	private EntityManager e;
 	private boolean hasTarget = false;
 	private boolean dead;
 	private Sound fire;
 	private Sound kill;
-	private Tower tow;
+	private goTower got;
 
-	public Bullet(double initX, double initY, double velocity, double r,
-			World myWorld, NavGraph graph, EntityManager ent, Tower gt) throws SlickException {
+	public kameBullet(double initX, double initY, double velocity, double r,
+			World myWorld, NavGraph graph, EntityManager ent, goTower gt) throws SlickException {
 		super(initX, initY, velocity, r, myWorld, graph);
 		// TODO Auto-generated constructor stub
 		e = ent;
 		fire = new Sound("src/whoosh.ogg");
 		kill = new Sound("src/wilhelm.ogg");
-		tow = gt;
+		got = gt;
 	}
 
 	@Override
@@ -37,7 +36,7 @@ public class Bullet extends MovingEntity {
 						hasTarget = true;
 						((Enemy) en).setHasBullet(true);
 						fire.play();
-						tow.sethasBullet(false);
+						got.sethasBullet(false);
 					}
 				}
 			}

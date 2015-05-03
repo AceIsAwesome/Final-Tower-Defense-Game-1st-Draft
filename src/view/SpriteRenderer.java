@@ -13,6 +13,8 @@ import model.entities.Enemy;
 import model.entities.Entity;
 import model.entities.Player;
 import model.entities.Tower;
+import model.entities.goTower;
+import model.entities.kameBullet;
 
 public class SpriteRenderer {
 	
@@ -28,6 +30,10 @@ public class SpriteRenderer {
 	
 	private Image bulletImg;
 	
+	private Image gotowerImg;
+	
+	private Image kamebulletImg;
+	
 	public SpriteRenderer(CoordinateTranslator convert){
 		this.convert = convert;
 		try {
@@ -39,6 +45,8 @@ public class SpriteRenderer {
 			
 			towerImg = new Image("src/tower.png");
 			bulletImg = new Image("src/Arrow.png");
+			gotowerImg = new Image("src/goTower.png");
+			kamebulletImg = new Image("src/kameBullet.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -50,11 +58,17 @@ public class SpriteRenderer {
 		else if(e instanceof Enemy){
 			renderH((Enemy)e,gc,g);
 		}
-		if(e instanceof Tower){
+		else if(e instanceof Tower){
 			renderH((Tower)e, gc, g);
 		}
 		else if(e instanceof Bullet){
 			renderH((Bullet)e,gc,g);
+		}
+		else if(e instanceof goTower){
+			renderH((goTower)e, gc, g);
+		}
+		else if(e instanceof kameBullet){
+			renderH((kameBullet)e,gc,g);
 		}
 	}
 
@@ -78,6 +92,11 @@ public class SpriteRenderer {
 		i.draw((float) pc.x -20, (float) pc.y -20, 40, 40);
 	}
 	
+	private void drawkameSprite(Image i, Entity e){
+		Point pc = convert.worldToScreen(e.getX(), e.getY());
+		i.draw((float) pc.x -20, (float) pc.y -20, 30, 30);
+	}
+	
 	private void drawEnemySprite(Image i, Entity e){
 		Point pc = convert.worldToScreen(e.getX(), e.getY());
 		
@@ -98,6 +117,12 @@ public class SpriteRenderer {
 	}
 	private void renderH(Tower e, GameContainer gc, Graphics g) {
 		drawSprite(towerImg, e);
+	}
+	private void renderH(goTower e, GameContainer gc, Graphics g) {
+		drawSprite(gotowerImg, e);
+	}
+	private void renderH(kameBullet e, GameContainer gc, Graphics g) {
+		drawkameSprite(kamebulletImg, e);
 	}
 	
 	public Animation getAnimation (Image i , int sX, int sY , int sW , int sH, int f, int d){
