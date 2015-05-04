@@ -172,12 +172,23 @@ public class PlayState extends BasicGameState {
 	}
 	private void addAgents() throws SlickException{
 		
-		Enemy agent = new Enemy(14, 29, .25, .0095, 10, world, nav);
+		//spawns for world 2
+		/*Enemy agent = new Enemy(14, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent);
 		Enemy agent1 = new Enemy(15, 29, .25, .0095, 10, world, nav);
 		e.addEntity(agent1);
 		Enemy agent2 = new Enemy(16, 29, .25, .0095, 10, world, nav);
+		e.addEntity(agent2);*/
+		
+		//spawn for world 3
+		Enemy agent = new Enemy(0, 28, .25, .0095, 10, world, nav);
+		e.addEntity(agent);
+		Enemy agent1 = new Enemy(0, 28, .25, .0095, 10, world, nav);
+		e.addEntity(agent1);
+		Enemy agent2 = new Enemy(0, 28, .25, .0095, 10, world, nav);
 		e.addEntity(agent2);
+		
+		
 		/*Enemy agent3 = new Enemy(9, 24, .25, .0095, 10, world, nav);
 		e.addEntity(agent3);
 		Enemy agent4 = new Enemy(10, 24, .25, .0095, 10, world, nav);
@@ -257,7 +268,7 @@ public class PlayState extends BasicGameState {
 		//draw Console
 		if(showLog)
 		consoleView.render(ConsoleLog.getInstance(), gc, g);
-		
+		//g.setColor();
 		g.drawString("Cash:$" + money , 200, 0);
 		g.drawString("Points:" + player.getPoints() + "/500", 200, 20);
 		g.drawString("Lives Remaining:" + player.getDeaths() + "/5", 200, 40);

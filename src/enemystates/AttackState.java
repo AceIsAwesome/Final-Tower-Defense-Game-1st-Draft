@@ -11,8 +11,10 @@ public class AttackState extends EnemyState {
 
 	@Override
 	public void enter(Enemy e) {
-		// Pick a random location to wander to
-		Point p = new Point(28,2);
+		// where to go map 3
+		Point p = new Point(6,2);
+		//where to go map 2
+		//Point p = new Point(28,2);
 		
 		// Generate path to that point
 		e.getPathing().generatePath(p);
